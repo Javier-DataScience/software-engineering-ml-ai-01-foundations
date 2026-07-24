@@ -256,3 +256,526 @@ Class E → Job E
 ```
 
 A class should change only when its own responsibility changes.
+
+# Open/Closed Principle (OCP)
+
+## Objective
+
+Understand how to design software that is easy to extend without modifying existing, working code.
+
+---
+
+## Definition
+
+> **Software entities should be open for extension but closed for modification.**
+
+This means:
+
+- We should be able to add new behavior.
+- We should avoid changing code that already works.
+
+Instead of modifying existing classes, we extend the system by creating new classes.
+
+---
+
+## Why OCP Exists
+
+Imagine a system that calculates discounts.
+
+Initially it supports:
+
+- Student
+- Premium
+
+Later the business asks for:
+
+- VIP
+- Gold
+- Employee
+- Partner
+
+A poor design forces us to edit the same class every time a new discount is added.
+
+Every modification introduces risk:
+
+- New bugs
+- Broken existing features
+- Difficult testing
+- Merge conflicts in team environments
+
+OCP avoids these problems.
+
+---
+
+## Bad Design
+
+```
+                DiscountCalculator
+
+                 calculate()
+
+          if Student
+             ...
+
+          elif Premium
+             ...
+
+          elif VIP
+             ...
+
+          elif Gold
+             ...
+
+          elif Employee
+             ...
+```
+
+Every new customer type requires changing the same class.
+
+This violates OCP.
+
+---
+
+## Good Design
+
+```
+                DiscountStrategy
+                    (abstract)
+
+                 calculate()
+
+          ▲         ▲        ▲
+          │         │        │
+     Student   Premium    VIP
+     Discount  Discount  Discount
+```
+
+When a new discount is needed:
+
+```
+PartnerDiscount
+```
+
+we simply create another class.
+
+The existing classes remain unchanged.
+
+---
+
+## Key Concepts
+
+- Existing code should remain stable.
+- New functionality should be added through extension.
+- Avoid large `if-elif-else` chains that constantly grow.
+- Prefer polymorphism over conditional logic.
+- OCP works together with inheritance and abstraction.
+
+---
+
+## Benefits
+
+- Easier maintenance.
+- Easier testing.
+- Lower risk of introducing bugs.
+- Better scalability.
+- Cleaner architecture.
+- Easier teamwork.
+
+---
+
+## AI / ML Engineering Example
+
+Imagine an LLM application.
+
+Bad design:
+
+```
+if provider == "OpenAI":
+    ...
+
+elif provider == "Claude":
+    ...
+
+elif provider == "Gemini":
+    ...
+
+elif provider == "Llama":
+    ...
+```
+
+Every new provider forces us to modify the application.
+
+Using OCP:
+
+```
+LLMProvider
+    ▲
+    │
+OpenAIProvider
+
+ClaudeProvider
+
+GeminiProvider
+
+LlamaProvider
+```
+
+Adding a new model becomes:
+
+```
+DeepSeekProvider
+```
+
+No existing code needs to change.
+
+---
+
+## Engineering Notes
+
+- OCP reduces maintenance costs.
+- It encourages extensible software architecture.
+- It relies heavily on abstraction and polymorphism.
+- Most enterprise software frameworks follow this principle.
+- OCP is one of the foundations of scalable object-oriented design.
+
+## The Open/Closed Principle is achieved by combining abstraction, inheritance, and polymorphism.
+
+The system depends on a stable abstraction (Notification) instead of concrete implementations (Email, SMS, Push).
+
+New behaviors can be added by creating new classes that follow the same interface, without modifying existing code.
+
+# Open/Closed Principle (OCP)
+
+## Objective
+
+Understand how to design software that can be extended with new functionality without modifying existing working code.
+
+---
+
+## Definition
+
+The Open/Closed Principle (OCP) states:
+
+> Software entities should be open for extension but closed for modification.
+
+This means:
+
+- A system should allow new behavior to be added.
+- Existing working code should remain stable.
+- New functionality should be introduced through extension.
+
+---
+
+## Why OCP Exists
+
+Software systems continuously evolve.
+
+New requirements appear:
+
+- New features.
+- New integrations.
+- New business rules.
+- New technologies.
+
+A poor design requires modifying existing classes every time a new requirement appears.
+
+This increases:
+
+- Risk of introducing bugs.
+- Testing complexity.
+- Maintenance cost.
+- Code coupling.
+
+OCP helps create systems that can grow safely.
+
+---
+
+# Bad Design Example
+
+A notification system implemented with conditional logic:
+
+```
+class NotificationService:
+
+    def send_notification(self, notification_type, message):
+
+        if notification_type == "email":
+            print(f"Sending EMAIL: {message}")
+
+        elif notification_type == "sms":
+            print(f"Sending SMS: {message}")
+
+        elif notification_type == "push":
+            print(f"Sending PUSH: {message}")
+```
+
+The problem:
+
+Every time a new notification type is added, the existing class must be modified.
+
+Example:
+
+Adding WhatsApp requires:
+
+```
+elif notification_type == "whatsapp":
+    print(f"Sending WhatsApp: {message}")
+```
+
+The class keeps growing.
+
+This violates OCP because the existing code is not closed for modification.
+
+---
+
+# Good Design Example
+
+Using abstraction and polymorphism:
+
+```
+                 Notification
+                    (ABC)
+
+                       |
+        --------------------------------
+        |              |               |
+      Email           SMS            Push
+   Notification   Notification   Notification
+```
+
+Each notification type implements the same contract:
+
+```
+send(message)
+```
+
+The service depends only on the abstraction:
+
+```
+class NotificationService:
+
+    def send(self, notification, message):
+        notification.send(message)
+```
+
+The service does not need to know if the object is:
+
+```
+EmailNotification
+
+SMSNotification
+
+PushNotification
+```
+
+It only knows that the object can execute:
+
+```
+send()
+```
+
+---
+
+# Relationship with Previous OOP Concepts
+
+OCP is achieved by combining several Object-Oriented Programming concepts.
+
+---
+
+## Inheritance
+
+Child classes inherit from a common abstraction:
+
+```
+class EmailNotification(Notification):
+```
+
+```
+class SMSNotification(Notification):
+```
+
+```
+class PushNotification(Notification):
+```
+
+They share the same parent contract.
+
+---
+
+## Abstraction
+
+The abstract class defines what every notification must provide:
+
+```
+class Notification(ABC):
+
+    @abstractmethod
+    def send(self, message):
+        pass
+```
+
+The abstraction hides implementation details.
+
+The parent defines the required behavior, while children decide how to implement it.
+
+---
+
+## Polymorphism
+
+Different objects respond to the same method differently.
+
+The common method is:
+
+```
+notification.send(message)
+```
+
+Example:
+
+```
+email.send("Hello")
+```
+
+Output:
+
+```
+Sending EMAIL: Hello
+```
+
+Another object:
+
+```
+sms.send("Hello")
+```
+
+Output:
+
+```
+Sending SMS: Hello
+```
+
+Same method.
+
+Different behavior.
+
+---
+
+# Adding New Functionality
+
+Suppose the system needs WhatsApp notifications.
+
+Without OCP:
+
+```
+Modify NotificationService.
+
+Add another condition.
+
+Risk breaking existing code.
+```
+
+With OCP:
+
+Create a new class:
+
+```
+class WhatsAppNotification(Notification):
+
+    def send(self, message):
+        print(f"Sending WhatsApp: {message}")
+```
+
+The existing system remains unchanged.
+
+The software is extended, not modified.
+
+---
+
+# AI / ML Engineering Example
+
+Imagine an LLM application supporting different providers.
+
+Bad design:
+
+```
+if provider == "OpenAI":
+    ...
+
+elif provider == "Claude":
+    ...
+
+elif provider == "Gemini":
+    ...
+
+elif provider == "Llama":
+    ...
+```
+
+Every new provider forces us to modify the application.
+
+Using OCP:
+
+```
+              LLMProvider
+                  (ABC)
+
+                    |
+    --------------------------------
+    |              |               |
+OpenAIProvider  ClaudeProvider  GeminiProvider
+```
+
+Adding a new model becomes:
+
+```
+DeepSeekProvider
+```
+
+No existing code needs to change.
+
+---
+
+# Key Concepts
+
+- Existing code should remain stable.
+- New functionality should be added through extension.
+- Avoid large `if-elif-else` chains that constantly grow.
+- Prefer polymorphism over conditional logic.
+- OCP works together with inheritance and abstraction.
+
+---
+
+# Benefits
+
+- Easier maintenance.
+- Easier testing.
+- Lower risk of introducing bugs.
+- Better scalability.
+- Cleaner architecture.
+- Easier teamwork.
+
+---
+
+# Engineering Notes
+
+- OCP reduces the impact of future changes.
+- Stable abstractions protect existing code.
+- New behavior should be added through extension.
+- OCP is one of the foundations of scalable software architecture.
+
+OCP works together with:
+
+```
+Abstraction
+Inheritance
+Polymorphism
+Dependency Injection
+```
+
+---
+
+# Key Takeaway
+
+A good software design does not try to predict every future requirement.
+
+Instead, it creates structures where new requirements can be added safely without constantly rewriting existing code.
