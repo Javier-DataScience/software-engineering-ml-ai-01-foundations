@@ -1,10 +1,21 @@
-class NotificationService:
-    """
-    A notification service that violates
-    the Open/Closed Principle.
-    """
+"""
+===============================================================================
+Module: bad_design.py
 
-    def send_notification(self, notification_type, message):
+Path: module-1.1-software-design-oop/demos/demo-09-solid-ocp/bad_design.py
+
+Purpose:
+Demonstrate an incorrect implementation of the Open/Closed Principle (OCP),
+where new notification types require modifying existing code.
+
+===============================================================================
+"""
+
+
+class NotificationService:
+    """Notification service that violates OCP."""
+
+    def send_notification(self, notification_type, message):  # Uses conditional logic.
 
         if notification_type == "email":
             print(f"Sending EMAIL: {message}")
@@ -16,10 +27,11 @@ class NotificationService:
             print(f"Sending PUSH notification: {message}")
 
         else:
-            print("Unknown notification type")
+            print("Unknown notification type")  # Handles unsupported types.
 
 
-def main():
+def main():  # Coordinates the demonstration.
+    """Program entry point."""
 
     service = NotificationService()
 
@@ -34,5 +46,5 @@ def main():
     )
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # Script entry point.
     main()

@@ -779,3 +779,497 @@ Dependency Injection
 A good software design does not try to predict every future requirement.
 
 Instead, it creates structures where new requirements can be added safely without constantly rewriting existing code.
+
+
+# Liskov Substitution Principle (LSP)
+
+## Objective
+
+Understand how inheritance should be used correctly so that child classes can always replace their parent classes without breaking the behavior of the program.
+
+---
+
+## Definition
+
+The **Liskov Substitution Principle (LSP)** states:
+
+> Objects of a subclass should be replaceable with objects of their superclass without affecting the correctness of the program.
+
+In simple words:
+
+- If class **B** inherits from class **A**...
+- Then every object of **B** should behave as a valid **A**.
+
+The client code should never need to know whether it is working with the parent or one of its children.
+
+---
+
+## Why LSP Exists
+
+Inheritance is a powerful mechanism.
+
+However, it is also one of the easiest ways to create bad software design.
+
+Many developers think:
+
+```
+"If B inherits from A, then everything is fine."
+```
+
+Unfortunately, this is not always true.
+
+Sometimes a child class changes or removes behavior promised by the parent class.
+
+When this happens, the client code breaks.
+
+LSP exists to prevent this problem.
+
+---
+
+## The Main Idea
+
+Imagine a function that expects a parent object.
+
+```
+process(notification)
+```
+
+If every child class can be passed to this function without changing its behavior, then LSP is respected.
+
+If one child causes errors, exceptions, or unexpected behavior, then LSP has been violated.
+
+---
+
+## Relationship with Previous OOP Concepts
+
+LSP depends on concepts we already studied.
+
+### Inheritance
+
+Inheritance creates an **"is-a"** relationship.
+
+```
+EmailNotification
+        │
+        ▼
+Notification
+```
+
+If this relationship is incorrect, inheritance should not be used.
+
+---
+
+### Abstraction
+
+The parent class defines a contract.
+
+```
+Notification
+
+send(message)
+```
+
+Every child must respect that contract.
+
+---
+
+### Polymorphism
+
+The client code uses the parent type.
+
+```
+notification.send(message)
+```
+
+The client should not care whether the object is:
+
+```
+EmailNotification
+
+SMSNotification
+
+PushNotification
+```
+
+Every child should behave correctly.
+
+---
+
+## What Does "Substitution" Mean?
+
+Suppose we have:
+
+```
+Notification notification
+```
+
+Today it stores:
+
+```
+EmailNotification
+```
+
+Tomorrow we replace it with:
+
+```
+SMSNotification
+```
+
+The rest of the program should continue working exactly the same.
+
+That replacement is called **substitution**.
+
+If replacing one child with another breaks the application, LSP has been violated.
+
+---
+
+## Behavioral Contracts
+
+LSP is **not only about methods existing.**
+
+It is about behavior.
+
+For example:
+
+Parent:
+
+```
+withdraw(amount)
+```
+
+Promise:
+
+- Withdraw money.
+- Reduce balance.
+- Return success.
+
+If one child suddenly throws an exception for valid amounts...
+
+or ignores the withdrawal...
+
+or changes the meaning of the method...
+
+then the child has broken the parent's contract.
+
+The method still exists...
+
+but its behavior changed.
+
+---
+
+## Common LSP Violations
+
+### 1. Throwing unexpected exceptions
+
+Parent:
+
+```
+send(message)
+```
+
+Child:
+
+```
+raise NotImplementedError
+```
+
+The child cannot actually perform the promised behavior.
+
+---
+
+### 2. Returning unexpected values
+
+Parent:
+
+```
+calculate_price()
+
+→ returns float
+```
+
+Child:
+
+```
+calculate_price()
+
+→ returns None
+```
+
+The client receives something completely different.
+
+---
+
+### 3. Removing behavior
+
+Parent:
+
+```
+save()
+```
+
+Child:
+
+```
+pass
+```
+
+The child does nothing.
+
+The contract has been broken.
+
+---
+
+### 4. Strengthening preconditions
+
+Parent accepts:
+
+```
+withdraw(100)
+```
+
+Child accepts only:
+
+```
+withdraw(100)
+
+if account == Premium
+```
+
+The child is more restrictive than the parent.
+
+This violates LSP.
+
+---
+
+## Incorrect Inheritance Example
+
+A classic example:
+
+```
+Bird
+    │
+    ├── Sparrow
+    │
+    └── Penguin
+```
+
+Suppose Bird defines:
+
+```
+fly()
+```
+
+The client writes:
+
+```
+bird.fly()
+```
+
+Everything works for:
+
+```
+Sparrow
+```
+
+But what happens with:
+
+```
+Penguin
+```
+
+A penguin cannot fly.
+
+Possible bad solutions:
+
+```
+raise Exception
+```
+
+or
+
+```
+pass
+```
+
+or
+
+```
+print("Penguins can't fly")
+```
+
+All of them violate LSP because the child cannot fulfill the parent's promise.
+
+---
+
+## Better Design
+
+Separate the abstractions.
+
+```
+Bird
+    │
+    ├── FlyingBird
+    │       │
+    │       └── Sparrow
+    │
+    └── NonFlyingBird
+            │
+            └── Penguin
+```
+
+Now every class respects its own contract.
+
+Inheritance becomes correct.
+
+---
+
+## AI / ML Engineering Example
+
+Suppose we build an inference system.
+
+```
+MLModel
+```
+
+defines:
+
+```
+predict(data)
+```
+
+Children:
+
+```
+RandomForestModel
+
+XGBoostModel
+
+NeuralNetworkModel
+```
+
+Every model must:
+
+- Accept the same input.
+- Produce predictions.
+- Return the expected format.
+
+The application should work regardless of which model is used.
+
+If one model suddenly returns:
+
+```
+string
+```
+
+instead of
+
+```
+numpy array
+```
+
+the application breaks.
+
+LSP has been violated.
+
+---
+
+## Key Concepts
+
+- LSP guarantees safe inheritance.
+- Child classes must respect the parent's behavior.
+- The contract is more important than the implementation.
+- Subclasses should never surprise the client.
+- Good inheritance produces interchangeable objects.
+- If substitution fails, inheritance is probably incorrect.
+
+---
+
+## Benefits
+
+- Safer inheritance.
+- More reliable polymorphism.
+- Lower maintenance costs.
+- Fewer runtime errors.
+- Easier testing.
+- Better software architecture.
+
+---
+
+## Engineering Notes
+
+LSP works together with:
+
+```
+Inheritance
+Abstraction
+Polymorphism
+Open/Closed Principle
+```
+
+Without LSP:
+
+- Polymorphism becomes unreliable.
+- OCP becomes difficult to achieve.
+- Software becomes fragile.
+
+---
+
+## Key Takeaway
+
+Inheritance is **not** about reusing code.
+
+Inheritance is about preserving behavior.
+
+If a child class cannot completely replace its parent without breaking the application, inheritance is the wrong design choice.
+
+---
+
+# Relationship Between SOLID Principles and OOP Concepts
+
+SOLID principles are not separate from Object-Oriented Programming. They are guidelines that help us apply OOP concepts correctly in real software systems.
+
+## SOLID and OOP Connection
+
+| OOP Concept | SOLID Relationship |
+|------------|--------------------|
+| Encapsulation | Supports SRP by keeping responsibilities inside well-defined classes. |
+| Abstraction | Supports OCP, LSP, and DIP by defining stable contracts. |
+| Inheritance | Supports OCP and LSP when subclasses correctly extend parent behavior. |
+| Polymorphism | Enables OCP and LSP by allowing interchangeable implementations. |
+
+---
+
+# SOLID in Machine Learning Engineering
+
+SOLID principles are especially important when building ML systems because these systems contain many components that evolve independently.
+
+Examples:
+
+- Data ingestion.
+- Feature engineering.
+- Model training.
+- Model evaluation.
+- Model deployment.
+- Monitoring.
+- External AI services.
+
+Applying SOLID principles helps create ML systems that are:
+
+- Easier to maintain.
+- Easier to test.
+- Easier to extend.
+- Less coupled.
+- More reliable in production.
+
+---
+
+# Key Takeaway
+
+Good software design is not about writing more code. It is about organizing code so that changes can be introduced safely.
+
+SOLID principles help us build systems where:
+
+- Responsibilities are clear.
+- New functionality can be added without breaking existing code.
+- Components depend on abstractions instead of concrete implementations.
+- Different parts of the system can evolve independently.
