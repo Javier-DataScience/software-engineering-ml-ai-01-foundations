@@ -1491,3 +1491,111 @@ Examples:
 - ISP complements SRP, OCP, and LSP.
 - Well-designed ML systems separate responsibilities into focused contracts.
 
+
+# Dependency Inversion Principle (DIP)
+
+## Definition
+
+**The Dependency Inversion Principle (DIP)** states:
+
+> High-level modules should not depend on low-level modules. Both should depend on abstractions.
+
+> Abstractions should not depend on details. Details should depend on abstractions.
+
+---
+
+## Goal
+
+Reduce coupling by making classes depend on abstractions instead of concrete implementations.
+
+---
+
+## Problem
+
+When a high-level module directly depends on a concrete class, every implementation change forces modifications to the business logic.
+
+Example:
+
+```
+PredictionService
+        │
+        ▼
+RandomForestModel
+```
+
+Replacing `RandomForestModel` with `XGBoostModel` requires modifying `PredictionService`.
+
+---
+
+## Solution
+
+Introduce an abstraction.
+
+```
+PredictionService
+        │
+        ▼
+   Predictable
+        ▲
+        │
+--------------------------
+│           │           │
+RandomForest XGBoost LightGBM
+```
+
+Both the service and the models depend on the same contract.
+
+---
+
+## Dependency Injection
+
+Dependency Injection is a technique used to implement DIP.
+
+Instead of creating dependencies inside a class:
+
+```
+self.model = RandomForestModel()
+```
+
+the dependency is provided from outside:
+
+```
+PredictionService(model)
+```
+
+This allows implementations to be replaced without modifying the class.
+
+---
+
+## Machine Learning Engineering Example
+
+A prediction service should depend on a `Predictable` interface instead of a specific model.
+
+Possible implementations:
+
+- RandomForestModel
+- XGBoostModel
+- LightGBMModel
+- TransformerModel
+
+The prediction service remains unchanged while the model implementation can evolve independently.
+
+---
+
+## Benefits
+
+- Lower coupling.
+- Easier maintenance.
+- Easier testing.
+- Better scalability.
+- Flexible architectures.
+- Production-ready design.
+
+---
+
+## Key Takeaways
+
+- Depend on abstractions, not concrete implementations.
+- High-level modules should not know implementation details.
+- Dependency Injection is one technique to achieve DIP.
+- DIP enables flexible and extensible ML systems.
