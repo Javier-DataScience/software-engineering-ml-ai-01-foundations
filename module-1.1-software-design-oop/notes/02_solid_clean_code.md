@@ -1273,3 +1273,221 @@ SOLID principles help us build systems where:
 - New functionality can be added without breaking existing code.
 - Components depend on abstractions instead of concrete implementations.
 - Different parts of the system can evolve independently.
+
+# Interface Segregation Principle (ISP)
+
+## Definition
+
+**The Interface Segregation Principle (ISP)** states:
+
+> **Clients should not be forced to depend on methods they do not use.**
+
+In other words, a class should only implement the behaviors it actually needs.
+
+---
+
+## Why Does ISP Exist?
+
+Sometimes developers create very large interfaces that contain many unrelated methods.
+
+For example:
+
+```python
+class MLSystem:
+
+    def train(self):
+        ...
+
+    def predict(self):
+        ...
+
+    def evaluate(self):
+        ...
+
+    def save_model(self):
+        ...
+
+    def load_model(self):
+        ...
+```
+
+At first glance this seems convenient.
+
+However, imagine creating a class that only performs inference.
+
+It would still be forced to implement:
+
+- `train()`
+- `evaluate()`
+- `save_model()`
+
+even though those methods are meaningless for that class.
+
+This violates ISP.
+
+---
+
+## The Problem
+
+Large interfaces produce several problems:
+
+- Unnecessary methods.
+- Empty implementations.
+- Exceptions like `NotImplementedError`.
+- Tight coupling.
+- Difficult maintenance.
+
+A class becomes responsible for behaviors that do not belong to it.
+
+---
+
+## The Solution
+
+Instead of one large interface:
+
+```text
+MLSystem
+```
+
+Split it into smaller, focused interfaces.
+
+```text
+              MLModel
+                 ▲
+     ┌───────────┴───────────┐
+     │                       │
+Trainable              Predictable
+     │                       │
+Evaluatable          Persistable
+```
+
+Each class implements only the interfaces it actually needs.
+
+---
+
+## Relationship with OOP
+
+ISP builds directly on concepts we already studied.
+
+### Abstraction
+
+Interfaces define contracts.
+
+ISP says:
+
+> Keep contracts small and focused.
+
+---
+
+### Inheritance
+
+Classes inherit only the behaviors they require.
+
+They should never inherit unnecessary responsibilities.
+
+---
+
+### Polymorphism
+
+Small interfaces still support polymorphism.
+
+For example:
+
+```text
+Predictable
+      ▲
+      │
+-------------------------
+│          │           │
+RF      XGBoost      NeuralNet
+```
+
+Any object implementing `Predictable` can replace another.
+
+---
+
+## Relationship with Previous SOLID Principles
+
+### SRP
+
+SRP focuses on **classes**.
+
+ISP focuses on **interfaces**.
+
+---
+
+### OCP
+
+Small interfaces make extension easier.
+
+Adding new functionality usually means creating a new interface instead of modifying an existing one.
+
+---
+
+### LSP
+
+Smaller interfaces make it easier for subclasses to satisfy the parent's contract.
+
+Large interfaces often lead to LSP violations.
+
+---
+
+## Machine Learning Engineering Example
+
+Imagine a production ML platform.
+
+Some models can only perform inference.
+
+Others can also be trained.
+
+Instead of this:
+
+```text
+MLModel
+│
+├── train()
+├── predict()
+├── evaluate()
+├── save()
+└── load()
+```
+
+We design:
+
+```text
+Trainable
+Predictable
+Evaluatable
+Persistable
+```
+
+Now each model implements only what it needs.
+
+Examples:
+
+- Batch inference model → `Predictable`
+- Online model → `Predictable`
+- Training pipeline → `Trainable`
+- Model registry → `Persistable`
+
+---
+
+## Benefits
+
+- Smaller interfaces.
+- Lower coupling.
+- Better maintainability.
+- Easier testing.
+- Better extensibility.
+- Cleaner architecture.
+
+---
+
+## Key Concepts
+
+- Clients should not depend on methods they do not use.
+- Prefer several small interfaces over one large interface.
+- Small interfaces naturally improve abstraction.
+- ISP complements SRP, OCP, and LSP.
+- Well-designed ML systems separate responsibilities into focused contracts.
+
