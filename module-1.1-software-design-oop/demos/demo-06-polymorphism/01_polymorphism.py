@@ -17,9 +17,7 @@ class PrintedBook(Book):
         self.pages = pages
 
     def display_info(self):
-        print(
-            f"Printed Book: {self.title} - {self.author} ({self.pages} pages)"
-        )
+        print(f"Printed Book: {self.title} - {self.author} ({self.pages} pages)")
 
 
 class EBook(Book):
@@ -30,9 +28,7 @@ class EBook(Book):
         self.file_size = file_size
 
     def display_info(self):
-        print(
-            f"EBook: {self.title} - {self.author} ({self.file_size} MB)"
-        )
+        print(f"EBook: {self.title} - {self.author} ({self.file_size} MB)")
 
 
 def main():

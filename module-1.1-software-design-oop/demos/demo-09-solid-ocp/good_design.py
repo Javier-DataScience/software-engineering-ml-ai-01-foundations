@@ -14,7 +14,7 @@ using abstraction, inheritance, and polymorphism.
 from abc import ABC, abstractmethod
 
 
-class Notification(ABC):    # Force child classes to implement this method.
+class Notification(ABC):  # Force child classes to implement this method.
     """Abstract notification interface."""
 
     @abstractmethod

@@ -1,4 +1,3 @@
-
 """
 ===============================================================================
 Module: bad_design.py
@@ -17,8 +16,8 @@ not need.
 
 from abc import ABC, abstractmethod  # Import tools for creating abstract classes.
 
-
 # Classes
+
 
 class MLComponent(ABC):
     """Large interface that violates ISP."""
@@ -65,6 +64,7 @@ class InferenceService(MLComponent):  # Implements the entire interface.
 
 # Functions
 
+
 def run_inference(model, data):  # Client code that only needs predictions.
     """Run inference using any ML component."""
 
@@ -75,6 +75,7 @@ def run_inference(model, data):  # Client code that only needs predictions.
 
 
 # Main
+
 
 def main():  # Coordinates the demonstration.
     """Program entry point."""

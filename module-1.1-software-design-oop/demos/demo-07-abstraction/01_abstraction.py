@@ -11,31 +11,24 @@ class Book(ABC):
     @abstractmethod
     def display_info(self):
         """Every type of book must implement this method."""
-        pass
 
 
 class PrintedBook(Book):
-
     def __init__(self, title, author, pages):
         super().__init__(title, author)
         self.pages = pages
 
     def display_info(self):
-        print(
-            f"Printed Book: {self.title} - {self.author} ({self.pages} pages)"
-        )
+        print(f"Printed Book: {self.title} - {self.author} ({self.pages} pages)")
 
 
 class EBook(Book):
-
     def __init__(self, title, author, file_size):
         super().__init__(title, author)
         self.file_size = file_size
 
     def display_info(self):
-        print(
-            f"EBook: {self.title} - {self.author} ({self.file_size} MB)"
-        )
+        print(f"EBook: {self.title} - {self.author} ({self.file_size} MB)")
 
 
 def main():

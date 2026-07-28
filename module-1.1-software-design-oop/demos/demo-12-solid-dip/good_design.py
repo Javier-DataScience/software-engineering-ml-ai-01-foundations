@@ -1,4 +1,3 @@
-
 """
 ===============================================================================
 Module: good_design.py
@@ -16,8 +15,8 @@ Demonstrate a correct implementation of the Dependency Inversion Principle
 
 from abc import ABC, abstractmethod  # Import tools for creating abstract classes.
 
-
 # Classes
+
 
 class Predictable(ABC):
     """Abstract prediction contract."""
@@ -53,6 +52,7 @@ class PredictionService:
 
 # Main
 
+
 def main():  # Coordinates the demonstration.
     """Program entry point."""
 
@@ -65,7 +65,9 @@ def main():  # Coordinates the demonstration.
     predictions = service.predict(data)  # Perform predictions.
 
     print(f"Service: {service.__class__.__name__}")  # Display service name.
-    print(f"Injected Model: {service.model.__class__.__name__}")  # Display injected model.
+    print(
+        f"Injected Model: {service.model.__class__.__name__}"
+    )  # Display injected model.
     print(f"Predictions: {predictions}")  # Display predictions.
 
     print("\nReplacing the model...\n")  # Demonstrate flexibility.
@@ -77,7 +79,9 @@ def main():  # Coordinates the demonstration.
     predictions = service.predict(data)  # Perform predictions again.
 
     print(f"Service: {service.__class__.__name__}")  # Display service name.
-    print(f"Injected Model: {service.model.__class__.__name__}")  # Display injected model.
+    print(
+        f"Injected Model: {service.model.__class__.__name__}"
+    )  # Display injected model.
     print(f"Predictions: {predictions}")  # Display predictions.
 
 

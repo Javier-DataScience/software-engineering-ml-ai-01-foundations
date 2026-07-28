@@ -17,6 +17,7 @@ from abc import ABC, abstractmethod  # Import tools for creating abstract classe
 
 # Classes
 
+
 class MLModel(ABC):
     """Abstract base class defining the common contract."""
 
@@ -43,10 +44,13 @@ class NeuralNetworkModel(MLModel):  # Inherits the contract from MLModel.
     """Neural Network implementation."""
 
     def predict(self, data):  # Provides its own implementation of the contract.
-        return [1 if value > 15 else 0 for value in data]  # Applies a simple prediction rule.
+        return [
+            1 if value > 15 else 0 for value in data
+        ]  # Applies a simple prediction rule.
 
 
 # Functions
+
 
 def evaluate_model(model, data):  # Client code that works with any MLModel object.
     """Evaluate any MLModel."""
@@ -60,6 +64,7 @@ def evaluate_model(model, data):  # Client code that works with any MLModel obje
 
 
 # Main
+
 
 def main():  # Coordinates the execution of the demonstration.
     """Program entry point."""

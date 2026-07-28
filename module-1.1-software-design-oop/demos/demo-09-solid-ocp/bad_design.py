@@ -35,15 +35,9 @@ def main():  # Coordinates the demonstration.
 
     service = NotificationService()
 
-    service.send_notification(
-        "email",
-        "Model training completed successfully."
-    )
+    service.send_notification("email", "Model training completed successfully.")
 
-    service.send_notification(
-        "sms",
-        "Model deployed successfully."
-    )
+    service.send_notification("sms", "Model deployed successfully.")
 
 
 if __name__ == "__main__":  # Script entry point.

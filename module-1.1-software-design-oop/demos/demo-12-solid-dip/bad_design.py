@@ -1,4 +1,3 @@
-
 """
 ===============================================================================
 Module: bad_design.py
@@ -14,6 +13,7 @@ implementation.
 """
 
 # Classes
+
 
 class RandomForestModel:
     """Concrete Random Forest implementation."""
@@ -33,6 +33,7 @@ class PredictionService:
 
 
 # Main
+
 
 def main():  # Coordinates the demonstration.
     """Program entry point."""

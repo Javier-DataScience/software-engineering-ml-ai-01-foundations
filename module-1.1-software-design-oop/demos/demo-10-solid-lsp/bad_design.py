@@ -12,6 +12,7 @@ parent class.
 ===============================================================================
 """
 
+
 class MLModel:
     """Parent class defining the common prediction contract."""
 

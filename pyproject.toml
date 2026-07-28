@@ -1,0 +1,12 @@
+[project]
+name = "phase-01-professional-python-software-engineering-foundations"
+version = "0.1.0"
+description = "Professional Python software engineering foundations for ML and AI systems."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.0",
+]

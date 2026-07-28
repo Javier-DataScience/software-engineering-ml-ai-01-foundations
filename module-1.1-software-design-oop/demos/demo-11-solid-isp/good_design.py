@@ -1,4 +1,3 @@
-
 """
 ===============================================================================
 Module: good_design.py
@@ -16,8 +15,8 @@ Demonstrate a correct implementation of the Interface Segregation Principle
 
 from abc import ABC, abstractmethod  # Import tools for creating abstract classes.
 
-
 # Classes
+
 
 class Predictable(ABC):  # Define the prediction contract.
     """Interface for prediction services."""
@@ -59,10 +58,13 @@ class InferenceService(Predictable):  # Implements only the interface it needs.
     """Inference service."""
 
     def predict(self, data):  # Implement the prediction contract.
-        return [1 if value > 15 else 0 for value in data]  # Generate one prediction per sample.
+        return [
+            1 if value > 15 else 0 for value in data
+        ]  # Generate one prediction per sample.
 
 
 # Functions
+
 
 def run_inference(model, data):  # Client code that depends only on Predictable.
     """Run inference using any prediction service."""
@@ -71,10 +73,13 @@ def run_inference(model, data):  # Client code that depends only on Predictable.
 
     print(f"Model: {model.__class__.__name__}")  # Display model name.
     print(f"Predictions: {predictions}")  # Display predictions.
-    print(f"Number of predictions: {len(predictions)}")  # Verify one prediction per sample.
+    print(
+        f"Number of predictions: {len(predictions)}"
+    )  # Verify one prediction per sample.
 
 
 # Main
+
 
 def main():  # Coordinates the demonstration.
     """Program entry point."""
