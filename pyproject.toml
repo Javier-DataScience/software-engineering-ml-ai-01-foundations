@@ -9,4 +9,8 @@ dependencies = []
 [dependency-groups]
 dev = [
     "ruff>=0.16.0",
+    "setuptools>=83.0.0",
 ]
+
+[tool.ruff]
+cache-dir = ""

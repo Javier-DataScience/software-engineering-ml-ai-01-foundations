@@ -26,7 +26,7 @@ class ModelInterface(ABC):
     @abstractmethod
     def predict(self, features: list[float]) -> int:
         """Generate a prediction."""
-        
+
 
 # Concrete Implementations
 

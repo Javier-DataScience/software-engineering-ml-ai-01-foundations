@@ -36,3 +36,5 @@ Thumbs.db
 # Personal files
 
 req.txt
+
+.ruff_cache/
