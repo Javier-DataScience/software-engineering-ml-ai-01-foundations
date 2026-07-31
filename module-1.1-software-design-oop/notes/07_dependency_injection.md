@@ -63,7 +63,6 @@ Consider the following design:
 
 ```python
 class PredictionPipeline:
-
     def __init__(self):
 
         self.model = XGBoostModel()
@@ -131,7 +130,6 @@ Example:
 
 ```python
 class PredictionPipeline:
-
     def __init__(self, model):
 
         self.model = model
@@ -493,7 +491,6 @@ Many beginners write:
 
 ```python
 class Service:
-
     def __init__(self):
 
         self.database = Database()
@@ -509,18 +506,7 @@ A better design is:
 
 ```python
 class Service:
-
-    def __init__(
-
-        self,
-
-        database,
-
-        logger,
-
-        model
-
-    ):
+    def __init__(self, database, logger, model):
 
         self.database = database
 
@@ -627,7 +613,6 @@ Example:
 
 ```python
 class PredictionService:
-
     def __init__(self, model: ModelInterface):
         self.model = model
 ```

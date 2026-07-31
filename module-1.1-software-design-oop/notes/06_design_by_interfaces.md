@@ -295,7 +295,6 @@ from abc import ABC, abstractmethod
 
 
 class ModelInterface(ABC):
-
     @abstractmethod
     def predict(self, data):
         pass
@@ -305,7 +304,6 @@ Concrete implementations:
 
 ```python
 class XGBoostModel(ModelInterface):
-
     def predict(self, data):
         return predictions
 ```

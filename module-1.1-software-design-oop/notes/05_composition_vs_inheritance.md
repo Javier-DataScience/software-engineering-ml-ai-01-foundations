@@ -875,13 +875,11 @@ Example:
 
 ```python
 class Animal:
-
     def move(self):
         print("Moving")
 
 
 class Dog(Animal):
-
     def bark(self):
         print("Barking")
 ```
